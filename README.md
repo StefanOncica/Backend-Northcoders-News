@@ -1,6 +1,8 @@
 # Northcoders News API
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
+Local environment variables must be created for development and testing databases:
+ - create a file called '.env.test'// inside this file assign your local database  to be equal to nc_news_test.
+ - create a file called '.env.development'// inside this file assign your local database to be equal to nc_news.
 
 
 
