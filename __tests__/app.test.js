@@ -5,7 +5,7 @@ const request = require('supertest')
 const app = require('../app')
 
 beforeEach(() => seed(testData))
-afterAll(() => db.end)
+afterAll(() => db.end())
 
 describe('GET: /api/topics', () => {
     test('status: 200, responds with all topics', () => {
