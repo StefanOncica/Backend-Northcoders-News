@@ -12,3 +12,9 @@ exports.selectEndpoints = () => {
     return endpoints
 }
 
+exports.selectArticleById = (articleId) => {
+    return db.query(`SELECT * FROM articles WHERE article_id = $1;`, [articleId])
+    .then((result) => {
+        return result.rows[0]
+    })
+}
