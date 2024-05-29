@@ -1,6 +1,7 @@
 const db = require('../db/connection')
 const endpoints = require('../endpoints')
 
+
 exports.selectTopics = () => {
     let queryString = 'SELECT * FROM topics;'
     return db.query(queryString)
@@ -10,5 +11,4 @@ exports.selectTopics = () => {
 exports.selectEndpoints = () => {
     return endpoints
 }
-
 

@@ -33,6 +33,7 @@ describe('GET: /api/topics', () => {
             .expect(404)
             .then(({body})=> {
                 expect(body.msg).toBe("Endpoint doesn't exist.")
+
             })
     });
 });
@@ -64,3 +65,4 @@ describe('GET: /api', () => {
     });
     
 });
+
