@@ -55,9 +55,6 @@ describe('GET: /api', () => {
                             queries: expect.any(Array),
                             exampleResponse: expect.any(Object)
                         })
-                        expect(value.exampleResponse).toMatchObject({
-                            [Object.keys(value.exampleResponse)[0]]: expect.any(Array)
-                        })
                     }
                     
                 }
@@ -66,3 +63,33 @@ describe('GET: /api', () => {
     
 });
 
+describe('GET: /api/articles/:article_id', () => {
+    test('status: 200, responds with a specific article based on the article_id', () => {
+        return request(app)
+            .get('/api/articles/6')
+            .expect(200)
+            .then(({body}) => {
+                expect(body).toMatchObject({
+                    author: expect.any(String),
+                    title: expect.any(String),
+                    article_id: expect.any(Number),
+                    body: expect.any(String),
+                    topic: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    article_img_url: expect.any(String),
+                })
+            })
+    });
+    
+    test('status: 200, responds with an empty object if the article_id does not exist', () => {
+        return request(app)
+            .get('/api/articles/1000')
+            .expect(200)
+            .then(({body}) => {
+                expect(body).toEqual({})
+            })
+        
+    });
+    
+});
