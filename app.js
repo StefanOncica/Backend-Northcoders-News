@@ -6,12 +6,10 @@ app.use(express.json())
 
 app.get('/api/topics', getTopics)
 
-// app.get('/api', getEndpoints)
-// test 
+app.get('/api', getEndpoints)
 
-//test
 app.use((req, res, next) => {
-    res.status(404).send({msg: 'Api does not exist'})
+    res.status(404).send({msg: "Endpoint doesn't exist."})
 })
 
 module.exports = app

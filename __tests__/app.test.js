@@ -4,6 +4,8 @@ const testData = require('../db/data/test-data')
 const request = require('supertest')
 const app = require('../app')
 
+const endpoints = require('../endpoints.json')
+
 beforeEach(() => seed(testData))
 afterAll(() => db.end())
 
@@ -30,16 +32,37 @@ describe('GET: /api/topics', () => {
             .get('/api/non-existent')
             .expect(404)
             .then(({body})=> {
-                expect(body.msg).toBe('Api does not exist')
+                expect(body.msg).toBe("Endpoint doesn't exist.")
+
             })
     });
 });
 
-// describe('GET: /api', () => {
-//     test('status: 200, responds with a list of all endpoints available', () => {
-//         return request(app)
-//             .get('/api')
-//             .expect(200)
-//     });
+describe('GET: /api', () => {
+    test('status: 200, responds with a list of all endpoints available', () => {
+        return request(app)
+            .get('/api')
+            .expect(200)
+            .then(({body}) => {
+                for (const [key, value] of Object.entries(endpoints)) {
+                    if(key === 'GET /api'){
+                        expect(value).toMatchObject({
+                            description: expect.any(String),
+                        }) 
+                    } else {
+                        expect(value).toMatchObject({
+                            description: expect.any(String),
+                            queries: expect.any(Array),
+                            exampleResponse: expect.any(Object)
+                        })
+                        expect(value.exampleResponse).toMatchObject({
+                            [Object.keys(value.exampleResponse)[0]]: expect.any(Array)
+                        })
+                    }
+                    
+                }
+            })
+    });
     
-// });
+});
+

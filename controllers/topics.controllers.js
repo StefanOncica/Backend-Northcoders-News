@@ -6,16 +6,13 @@ exports.getTopics = (req, res, next) => {
     .then((topics) => {
             res.status(200).send({topics})
     })
-   
+    .catch(next)
 }
 
-// exports.getEndpoints = (req, res, next) => {
-//     console.log('this is the controller');
-//     selectEndpoints()
-//     .then((endpoints) => {
-//         console.log(endpoints);
-//         res.status(200).send({endpoints})
-//     })
-// }
+exports.getEndpoints = (req, res, next) => {
+    const allEndpoints = selectEndpoints()
+    res.status(200).send(allEndpoints)
+}
+
 
 
