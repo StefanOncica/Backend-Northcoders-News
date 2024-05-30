@@ -4,6 +4,8 @@ const testData = require('../db/data/test-data')
 const request = require('supertest')
 const app = require('../app')
 
+
+
 const endpoints = require('../endpoints.json')
 
 beforeEach(() => seed(testData))
@@ -119,3 +121,40 @@ describe('GET: /api/articles', () => {
     });
 
 });
+
+describe('GET: /api/articles/:article_id/comments', () => {
+    test('status: 200, responds with all comments for an article', () => {
+        return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.comments).toHaveLength(11)
+                body.comments.forEach((comment) => {
+                    expect(comment).toMatchObject(
+                        {
+                            comment_id: expect.any(Number),
+                            votes: expect.any(Number),
+                            created_at: expect.any(String),
+                            author: expect.any(String),
+                            body: expect.any(String),
+                            article_id: expect.any(Number)
+                        })
+                })
+                
+                const allCommentCreateDates = body.comments.map((comment) => {
+                    return Number(comment.created_at.split('T')[0].split('-')[1])
+                })
+                expect(allCommentCreateDates).toBeSorted({descending: true})
+                
+            })
+    })
+
+    test('status:400, invalid article_Id', () => {
+        return request(app)
+            .get('/api/articles/invalid/comments')
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+    });
+})
