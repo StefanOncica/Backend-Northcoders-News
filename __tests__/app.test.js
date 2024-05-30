@@ -147,8 +147,7 @@ describe('GET: /api/articles/:article_id/comments', () => {
                 expect(allCommentCreateDates).toBeSorted({descending: true})
                 
             })
-    })
-
+    });
     test('status:400, invalid article_Id', () => {
         return request(app)
             .get('/api/articles/invalid/comments')
@@ -158,3 +157,95 @@ describe('GET: /api/articles/:article_id/comments', () => {
             })
     });
 })
+
+describe('POST: /api/articles/:article_id/comments', () => {
+    test('status:201, adds a comment for an article  ', () => {
+        return request(app)
+            .post('/api/articles/1/comments')
+            .send({
+                username: 'butter_bridge',
+                body: 'This is a test comment'
+            })
+            .expect(201)
+            .then((response) => {
+                expect(response.body.comment).toMatchObject({
+                    comment_id: expect.any(Number),
+                    body: 'This is a test comment',
+                    article_id: 1,
+                    author: 'butter_bridge',
+                    votes: 0,
+                    created_at: expect.any(String)
+                })
+               
+            })
+        
+    });
+
+    test('status: 400, responds with an error message if no username is provided  ', () => {
+        return request(app)
+            .post('/api/articles/1/comments')
+            .send({
+                body: 'I like carrots.'
+            })
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+        
+    });
+
+    test('status: 400, responds with an error message if no body is provided  ', () => {
+        return request(app)
+            .post('/api/articles/1/comments')
+            .send({
+                username: 'butter_bridge'
+            })
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+        
+    });
+
+    test('status:400, responds with an error message if articleId is NaN', () => {
+        return request(app)
+            .post('/api/articles/invalid/comments')
+            .send({
+                username: 'butter_bridge',
+                body: 'I like carrots.'
+            })
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+        
+    });
+
+    test('status:404, responds with an error message if articleId does not exist', () => {
+        return request(app)
+            .post('/api/articles/1000/comments')
+            .send({
+                username: 'butter_bridge',
+                body: 'I like carrots.'
+            })
+            .expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe('Not found.')
+            })
+        
+    });
+    
+    test('status:404, responds with an error message if username does not exist. ', () => {
+        return request(app)
+            .post('/api/articles/1/comments')
+            .send({
+                username: 'non-existent',
+                body: 'I like carrots.'
+            })
+            .expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe('Not found.')
+            })
+        
+    });
+});
