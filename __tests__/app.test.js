@@ -249,3 +249,78 @@ describe('POST: /api/articles/:article_id/comments', () => {
         
     });
 });
+
+describe('PATCH: /api/articles/:article_id', () => {
+    test('status:200, updates the votes on an article', () => {
+        return request(app)
+            .patch('/api/articles/1')
+            .send({
+                inc_votes: -1,
+                color: 'red',
+                font: 'arial'
+            })
+            .expect(200)
+            .then(({body}) => {
+                expect(body.article).toMatchObject(
+                    {
+                        article_id: 1,
+                        title: "Living in the shadow of a great man",
+                        topic: "mitch",
+                        author: "butter_bridge",
+                        body: "I find this existence challenging",
+                        votes:99,
+                        article_img_url:
+                          "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+                      })
+                
+            })
+    })
+
+    test('status:400, responds with an error message if inc_votes is not a number', () => {
+        return request(app)
+            .patch('/api/articles/1')
+            .send({
+                inc_votes: 'invalid'
+            })
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+    })
+
+    test('status:400, responds with an error message if inc_votes is missing', () => {
+        return request(app)
+            .patch('/api/articles/1')
+            .send({
+                animals: 4
+            })
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+    })
+
+    test('status:400, responds with an error message if articleId is invalid', () => {
+        return request(app)
+            .patch('/api/articles/invalid')
+            .send({
+                inc_votes: 1
+            })
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+    })
+
+    test('status:404, responds with an error message if articleId does not exist', () => {
+        return request(app)
+            .patch('/api/articles/1000')
+            .send({
+                inc_votes: 1
+            })
+            .expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe('Not found.')
+            })
+    })
+});
