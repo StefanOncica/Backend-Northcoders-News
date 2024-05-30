@@ -1,5 +1,7 @@
-const {selectTopics, selectEndpoints, selectArticleById, selectArticles, selectCommentsByArticleId} = require('../models/topics.model')
+const {selectTopics, selectEndpoints, selectArticleById, selectArticles, selectCommentsByArticleId, insertCommentByArticleId} = require('../models/topics.model')
 
+const {checkIfArticleIdExists} = require('../models/article.model')
+const {checkIfUsernameExists} = require('../models/username.model')
 
 exports.getTopics = (req, res, next) => {
     selectTopics()
@@ -35,6 +37,24 @@ exports.getAllCommentsByArticleId = (req, res, next) => {
     selectCommentsByArticleId(articleId)
     .then((comments) => {
         res.status(200).send({comments})
+    })
+    .catch(next)
+}
+
+exports.postCommentByArticleId = (req, res, next) => {
+    const {username, body} = req.body
+    const articleId = req.params.article_id
+
+    if (!username || !body) {
+        return res.status(400).send({msg: 'Bad request.'})
+    }
+
+    const promises = [insertCommentByArticleId(articleId, username, body), checkIfArticleIdExists(articleId), checkIfUsernameExists(username)]
+
+    Promise.all(promises)
+    .then((resolvedPromises) => {
+            const comment = resolvedPromises[0]
+            res.status(201).send({comment})
     })
     .catch(next)
 }
