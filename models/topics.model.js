@@ -19,7 +19,8 @@ exports.selectArticleById = (articleId) => {
     })
 }
 
-exports.selectArticles = () => {
+exports.selectArticles = (queryTopic) => {
+    let arrayQueryTopic = [queryTopic]
     let queryString = `SELECT 
     articles.author,
     articles.title, 
@@ -31,13 +32,19 @@ exports.selectArticles = () => {
 
     COUNT(comments.article_id) AS comment_count FROM articles
 
-    LEFT JOIN comments ON articles.article_id = comments.article_id
+    LEFT JOIN comments ON articles.article_id = comments.article_id\n`
 
+    if (queryTopic){
+        queryString += ` WHERE articles.topic = $1`
+    }else{
+        arrayQueryTopic = ''
+    }
+
+    queryString += `
     GROUP BY articles.article_id
-
     ORDER BY created_at DESC;`
 
-    return db.query(queryString)
+    return db.query(queryString, arrayQueryTopic) 
     .then((result) => {
         return result.rows
     })
