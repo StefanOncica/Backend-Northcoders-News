@@ -324,3 +324,33 @@ describe('PATCH: /api/articles/:article_id', () => {
             })
     })
 });
+
+describe('DELETE: /api/comments/:comment_id', () => {
+    test('status:204, deletes a comment by comment_id', () => {
+        return request(app)
+            .delete('/api/comments/1')
+            .expect(204)
+            .then(({body})=> {
+                expect(body).toEqual({})
+            })
+    })
+
+    test('status:404, responds with an error message if commentId does not exist', () => {
+        return request(app)
+            .delete('/api/comments/1000')
+            .expect(404)
+            .then(({body}) => {
+                expect(body.msg).toBe('Not found.')
+            })
+    })
+
+    test('status:400, responds with an error message if commentId is NaN', () => {
+        return request(app)
+            .delete('/api/comments/invalid')
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+    })
+    
+});
