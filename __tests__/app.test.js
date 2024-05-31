@@ -66,9 +66,9 @@ describe('GET: /api', () => {
 });
 
 describe('GET: /api/articles/:article_id', () => {
-    test('status: 200, responds with a specific article based on the article_id', () => {
+    test('status: 200, responds with a specific article based on the article_id and comment_count property is added', () => {
         return request(app)
-            .get('/api/articles/6')
+            .get('/api/articles/2')
             .expect(200)
             .then(({body}) => {
                 expect(body).toMatchObject({
@@ -81,8 +81,17 @@ describe('GET: /api/articles/:article_id', () => {
                     votes: expect.any(Number),
                     article_img_url: expect.any(String),
                 })
+                expect(body.comment_count).toBe('0')
             })
     });
+    test('status: 400, invalid article_Id', () => {
+        return request(app)
+            .get('/api/articles/invalid')
+            .expect(400)
+            .then(({body}) => {
+                expect(body.msg).toBe('Bad request.')
+            })
+    })
     
     test('status: 200, responds with an empty object if the article_id does not exist', () => {
         return request(app)
