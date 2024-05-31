@@ -373,6 +373,7 @@ describe('GET: /api/users', () => {
                 })
             })
     })
+
      test('status:404, responds with an error message when non existent api', () => {
         return request(app)
             .get('/api/non-existent')
@@ -381,7 +382,39 @@ describe('GET: /api/users', () => {
                 expect(body.msg).toBe("Endpoint doesn't exist.")
 
             })
-        })
-    
+    })
+})
+
+describe('GET /api/articles (topic query)', () => {
+    test('status:200, responds with all articles filtered by topic', () => {
+        return request(app)
+            .get('/api/articles?topic=mitch')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.articles).toHaveLength(12)
+                body.articles.forEach((article) => {
+                    expect(article).toMatchObject(
+                        {
+                            author: expect.any(String),
+                            title: expect.any(String),
+                            article_id: expect.any(Number),
+                            topic: 'mitch',
+                            created_at: expect.any(String),
+                            votes: expect.any(Number),
+                            article_img_url: expect.any(String),
+                            comment_count: expect.any(String)
+                        })
+                })
+            })
+    })
+
+    test('status:200, responds with an empty array if topic does not exist', () => {
+        return request(app)
+            .get('/api/articles?topic=123')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.articles).toHaveLength(0)
+            })
+    })
     
 });
