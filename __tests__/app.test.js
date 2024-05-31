@@ -354,3 +354,34 @@ describe('DELETE: /api/comments/:comment_id', () => {
     })
     
 });
+
+describe('GET: /api/users', () => {
+    test('status:200, responds with all users', () => {
+        return request(app)
+            .get('/api/users')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.users).toHaveLength(4)
+                body.users.forEach((user) => {
+                    expect(user).toMatchObject(
+                        {
+                            username: expect.any(String),
+                            name: expect.any(String),
+                            avatar_url: expect.any(String)
+                        }
+                    )
+                })
+            })
+    })
+     test('status:404, responds with an error message when non existent api', () => {
+        return request(app)
+            .get('/api/non-existent')
+            .expect(404)
+            .then(({body})=> {
+                expect(body.msg).toBe("Endpoint doesn't exist.")
+
+            })
+        })
+    
+    
+});

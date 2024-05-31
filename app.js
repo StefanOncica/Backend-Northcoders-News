@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const {getTopics, getEndpoints, getArticleById, getArticles, getAllCommentsByArticleId, postCommentByArticleId, patchArticleById, deleteCommentById} = require('./controllers/topics.controllers')
+const {getTopics, getEndpoints, getArticleById, getArticles, getAllCommentsByArticleId, postCommentByArticleId, patchArticleById, deleteCommentById, getAllUsers} = require('./controllers/topics.controllers')
 
 app.use(express.json())
 
@@ -19,6 +19,8 @@ app.post('/api/articles/:article_id/comments', postCommentByArticleId)
 app.patch('/api/articles/:article_id', patchArticleById)
 
 app.delete('/api/comments/:comment_id', deleteCommentById)
+
+app.get('/api/users', getAllUsers)
 
 app.use((req, res, next) => {
     res.status(404).send({msg: "Endpoint doesn't exist."})

@@ -1,4 +1,4 @@
-const {selectTopics, selectEndpoints, selectArticleById, selectArticles, selectCommentsByArticleId, insertCommentByArticleId, updateArticleById, removeCommentById} = require('../models/topics.model')
+const {selectTopics, selectEndpoints, selectArticleById, selectArticles, selectCommentsByArticleId, insertCommentByArticleId, updateArticleById, removeCommentById, selectUsers} = require('../models/topics.model')
 
 const {checkIfArticleIdExists} = require('../models/article.model')
 const {checkIfUsernameExists} = require('../models/username.model')
@@ -86,6 +86,14 @@ exports.deleteCommentById = (req, res, next) => {
     Promise.all(promises)
     .then(() => {
         res.status(204).send()
+    })
+    .catch(next)
+}
+
+exports.getAllUsers = (req, res, next) => {
+    selectUsers()
+    .then((users) => {
+            res.status(200).send({users})
     })
     .catch(next)
 }
