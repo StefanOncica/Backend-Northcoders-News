@@ -16,7 +16,7 @@
 Hosting link for Back-end: https://news-api-knls.onrender.com/api 
 May take around 50sec load the page the first time.
 The first page renders a list of available endpoints which can be used to navigate the website.
-The pages are rendered in JSON format, I recommend using an Chrome - extension that improves readability, like "JSON Viewer". 
+The pages are rendered in JSON format, I recommend using a Chrome - extension that improves readability, like "JSON Viewer". 
 
 
 If you would like run this on your local machine please follow these steps:
