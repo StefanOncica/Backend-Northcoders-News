@@ -11,14 +11,20 @@
     Express is used to create various endpoints.Testing these endpoints is an essential part of the process.  
 
 ** Phase 3 **
-    Front-end web page is implemented with React Still in progress at the moment, this part will hosted on a different repository and will implement the frontend part of the website using React. 
+    Front-end web page is implemented with React at this repository:  https://github.com/StefanOncica/Frontend-Northcoders-News
 
-    This repository is focused on the backend architecture only(phase 1 and 2) and can be seen fully functioning at the following hosting link: 
-https://news-api-knls.onrender.com/api (may take around 50sec load the page the first time)
-The first page renders a list of available endpoints which can be used to navigate the website. The pages are rendered in JSON format, I recommend using an Chrome extension that improves readability, like "JSON Viewer". 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    Hosting link for Back-end: 
+    
+    https://news-api-knls.onrender.com/api 
+    
+    - May take around 50sec load the page the first time
+    - The first page renders a list of available endpoints which can be used to navigate the website.
+    - The pages are rendered in JSON format, I recommend using an Chrome - extension that improves readability, like "JSON Viewer". 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 If you would like run this on your local machine please follow these steps:
-    
     Minimum requirements: 
     -> Node.js - minimum version: 21.7.1
     -> PostgreSQL - minimum version: 14.2
