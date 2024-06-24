@@ -1,7 +1,10 @@
 # Northcoders News API
 
-    This project mimics the functionalities of a real website similar to Reddit.
- It is implemented in Node.js environment and will lead to a fully functional website. Personally I feel particularly proud of this project as I managed to absorb all the necessary knowledge in just 3 weeks of intense learning. 
+This project mimics the functionalities of a real website similar to Reddit.
+
+It is implemented in Node.js environment and will lead to a fully functional website.
+
+Personally I feel particularly proud of this project as I managed to absorb all the necessary knowledge in just 3 weeks of intense learning. 
 
 ## Deployment phases: 
 ** Phase 1
@@ -11,7 +14,7 @@
     Express is used to create various endpoints.Testing these endpoints is an essential part of the process.  
 
 ** Phase 3
-    Front-end web page is implemented with React at this repository:  https://github.com/StefanOncica/Frontend-Northcoders-News
+    Front-end web page is implemented with React at this repository: https://github.com/StefanOncica/Frontend-Northcoders-News
 
 Hosting link for Back-end: https://news-api-knls.onrender.com/api 
 May take around 50sec load the page the first time.

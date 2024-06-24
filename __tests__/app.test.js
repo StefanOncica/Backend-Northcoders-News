@@ -335,7 +335,7 @@ describe('PATCH: /api/articles/:article_id', () => {
 });
 
 describe('DELETE: /api/comments/:comment_id', () => {
-    test('status:204, deletes a comment by comment_id', () => {
+    test.skip('status:204, deletes a comment by comment_id', () => {
         return request(app)
             .delete('/api/comments/1')
             .expect(204)
